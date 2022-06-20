@@ -24,7 +24,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
-
+    //API route for MasterLokasi
+    Route::resource('lokasi', App\Http\Controllers\API\LokasiController::class);
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
