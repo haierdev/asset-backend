@@ -20,7 +20,7 @@ Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'regis
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
 
 //Protecting Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
