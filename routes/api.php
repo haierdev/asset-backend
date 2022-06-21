@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
     //API route for MasterLokasi
     Route::resource('lokasi', App\Http\Controllers\API\LokasiController::class);
+    Route::resource('kategori', App\Http\Controllers\API\KategoriController::class);
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
