@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('lokasi', App\Http\Controllers\API\LokasiController::class);
     Route::resource('kategori', App\Http\Controllers\API\KategoriController::class);
     Route::resource('vendor', App\Http\Controllers\API\VendorController::class);
+    Route::resource('cost', App\Http\Controllers\API\CostController::class);
+    Route::resource('dept', App\Http\Controllers\API\DeptController::class);
+    Route::resource('condition', App\Http\Controllers\API\ConditionController::class);
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });

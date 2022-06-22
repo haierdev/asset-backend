@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Kategori;
-use App\Http\Resources\KategoriResource;
+use App\Models\Condition;
+use App\Http\Resources\ConditionResource;
 
-class KategoriController extends Controller
+class ConditionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $data = Kategori::latest()->get();
-        return response()->json([KategoriResource::collection($data), 'Kategori fetched.']);
+        $data = Condition::latest()->get();
+        return response()->json([ConditionResource::collection($data), 'Condition fetched.']);
     }
 
     /**
@@ -30,20 +30,18 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'code' => 'required|string|max:255',
-            'category' => 'required'
+            'condition' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori = Kategori::create([
-            'code' => $request->code,
-            'category' => $request->category
+        $condition = Condition::create([
+            'condition' => $request->condition
          ]);
         
-        return response()->json([' Kategori created successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Condition created successfully.', new ConditionResource($condition)]);
     }
 
     /**
@@ -54,11 +52,11 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori = Kategori::find($id);
-        if (is_null($kategori)) {
+        $condition = Condition::find($id);
+        if (is_null($condition)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new KategoriResource($kategori)]);
+        return response()->json([new ConditionResource($condition)]);
     }
 
     /**
@@ -68,22 +66,20 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Condition $condition)
     {
         $validator = Validator::make($request->all(),[
-            'code' => 'required|string|max:255',
-            'category' => 'required'
+            'condition' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori->code = $request->code;
-        $kategori->category = $request->category;
-        $kategori->save();
+        $condition->condition = $request->condition;
+        $condition->save();
         
-        return response()->json([' Kategori updated successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Condition updated successfully.', new ConditionResource($condition)]);
     }
 
     /**
@@ -92,10 +88,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy(Condition $condition)
     {
-        $kategori->delete();
+        $condition->delete();
 
-        return response()->json('Kategori deleted successfully');
+        return response()->json('Condition deleted successfully');
     }
 }

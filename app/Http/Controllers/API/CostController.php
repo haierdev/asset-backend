@@ -5,20 +5,20 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Kategori;
-use App\Http\Resources\KategoriResource;
+use App\Models\Cost;
+use App\Http\Resources\CostResource;
 
-class KategoriController extends Controller
+class CostController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = Kategori::latest()->get();
-        return response()->json([KategoriResource::collection($data), 'Kategori fetched.']);
+        $data = Cost::latest()->get();
+        return response()->json([CostResource::collection($data), 'Cost fetched.']);
     }
 
     /**
@@ -31,19 +31,19 @@ class KategoriController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'code' => 'required|string|max:255',
-            'category' => 'required'
+            'name' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori = Kategori::create([
+        $cost = Cost::create([
             'code' => $request->code,
-            'category' => $request->category
+            'name' => $request->name
          ]);
         
-        return response()->json([' Kategori created successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Cost created successfully.', new CostResource($cost)]);
     }
 
     /**
@@ -54,11 +54,11 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori = Kategori::find($id);
-        if (is_null($kategori)) {
+        $cost = Cost::find($id);
+        if (is_null($cost)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new KategoriResource($kategori)]);
+        return response()->json([new CostResource($cost)]);
     }
 
     /**
@@ -68,22 +68,22 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Cost $cost)
     {
         $validator = Validator::make($request->all(),[
             'code' => 'required|string|max:255',
-            'category' => 'required'
+            'name' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori->code = $request->code;
-        $kategori->category = $request->category;
-        $kategori->save();
+        $cost->code = $request->code;
+        $cost->name = $request->name;
+        $cost->save();
         
-        return response()->json([' Kategori updated successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Cost updated successfully.', new CostResource($cost)]);
     }
 
     /**
@@ -92,10 +92,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy(Cost $cost)
     {
-        $kategori->delete();
+        $cost->delete();
 
-        return response()->json('Kategori deleted successfully');
+        return response()->json('Cost deleted successfully');
     }
 }

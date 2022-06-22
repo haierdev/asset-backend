@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Kategori;
-use App\Http\Resources\KategoriResource;
+use App\Models\Dept;
+use App\Http\Resources\DeptResource;
 
-class KategoriController extends Controller
+class DeptController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $data = Kategori::latest()->get();
-        return response()->json([KategoriResource::collection($data), 'Kategori fetched.']);
+        $data = Dept::latest()->get();
+        return response()->json([DeptResource::collection($data), 'Dept fetched.']);
     }
 
     /**
@@ -30,20 +30,18 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'code' => 'required|string|max:255',
-            'category' => 'required'
+            'dept' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori = Kategori::create([
-            'code' => $request->code,
-            'category' => $request->category
+        $dept = Dept::create([
+            'dept' => $request->dept
          ]);
         
-        return response()->json([' Kategori created successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Dept created successfully.', new DeptResource($dept)]);
     }
 
     /**
@@ -54,11 +52,11 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori = Kategori::find($id);
-        if (is_null($kategori)) {
+        $dept = Dept::find($id);
+        if (is_null($dept)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new KategoriResource($kategori)]);
+        return response()->json([new DeptResource($dept)]);
     }
 
     /**
@@ -68,22 +66,20 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Dept $dept)
     {
         $validator = Validator::make($request->all(),[
-            'code' => 'required|string|max:255',
-            'category' => 'required'
+            'dept' => 'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $kategori->code = $request->code;
-        $kategori->category = $request->category;
-        $kategori->save();
+        $dept->dept = $request->dept;
+        $dept->save();
         
-        return response()->json([' Kategori updated successfully.', new KategoriResource($kategori)]);
+        return response()->json([' Dept updated successfully.', new DeptResource($dept)]);
     }
 
     /**
@@ -92,10 +88,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy(Dept $dept)
     {
-        $kategori->delete();
+        $dept->delete();
 
-        return response()->json('Kategori deleted successfully');
+        return response()->json('Dept deleted successfully');
     }
 }
