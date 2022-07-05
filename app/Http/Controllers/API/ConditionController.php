@@ -18,7 +18,10 @@ class ConditionController extends Controller
     public function index()
     {
         $data = Condition::latest()->get();
-        return response()->json([ConditionResource::collection($data), 'Condition fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Condition fetched',
+            'result' => ConditionResource::collection($data)], 200);
     }
 
     /**
@@ -41,7 +44,11 @@ class ConditionController extends Controller
             'condition' => $request->condition
          ]);
         
-        return response()->json([' Condition created successfully.', new ConditionResource($condition)]);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Condition Successful Created',
+            // 'user_created' => auth()->guard('api')->user()->name,
+            'result' => new ConditionResource($condition)], 200);
     }
 
     /**

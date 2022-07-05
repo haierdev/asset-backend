@@ -18,7 +18,10 @@ class OfficeController extends Controller
     public function index()
     {
         $data = Office::latest()->get();
-        return response()->json([OfficeResource::collection($data), 'Office fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Office fetched',
+            'result' => OfficeResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class OfficeController extends Controller
         $office = Office::create([
             'office' => $request->office
          ]);
-        
-        return response()->json([' Office created successfully.', new OfficeResource($office)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Office created successfully.',
+            'result' => new OfficeResource($office)], 200);
     }
 
     /**

@@ -18,7 +18,10 @@ class VendorController extends Controller
     public function index()
     {
         $data = Vendor::latest()->get();
-        return response()->json([VendorResource::collection($data), 'Vendor fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Vendor fetched',
+            'result' => VendorResource::collection($data)], 200);
     }
 
     /**
@@ -44,8 +47,10 @@ class VendorController extends Controller
             'address' => $request->address,
             'contact' => $request->contact
          ]);
-        
-        return response()->json([' Vendor created successfully.', new VendorResource($vendor)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Vendor created successfully.',
+            'result' => new VendorResource($vendor)], 200);
     }
 
     /**

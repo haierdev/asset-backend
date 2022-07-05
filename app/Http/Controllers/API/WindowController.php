@@ -18,7 +18,10 @@ class WindowController extends Controller
     public function index()
     {
         $data = Window::latest()->get();
-        return response()->json([WindowResource::collection($data), 'Window fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Window fetched',
+            'result' => WindowResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class WindowController extends Controller
         $windows_os = Window::create([
             'windows_os' => $request->windows_os
          ]);
-        
-        return response()->json([' Window created successfully.', new WindowResource($windows_os)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Window created successfully.',
+            'result' => new WindowResource($windows_os)], 200);
     }
 
     /**

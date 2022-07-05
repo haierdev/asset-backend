@@ -18,7 +18,10 @@ class DeptController extends Controller
     public function index()
     {
         $data = Dept::latest()->get();
-        return response()->json([DeptResource::collection($data), 'Dept fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Dept fetched',
+            'result' => DeptResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class DeptController extends Controller
         $dept = Dept::create([
             'dept' => $request->dept
          ]);
-        
-        return response()->json([' Dept created successfully.', new DeptResource($dept)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Dept created successfully.',
+            'result' => new DeptResource($dept)], 200);
     }
 
     /**

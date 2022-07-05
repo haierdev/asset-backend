@@ -18,7 +18,10 @@ class DeviceController extends Controller
     public function index()
     {
         $data = Device::latest()->get();
-        return response()->json([DeviceResource::collection($data), 'Device fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Device fetched',
+            'result' => DeviceResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class DeviceController extends Controller
         $device = Device::create([
             'device' => $request->device
          ]);
-        
-        return response()->json([' Device created successfully.', new DeviceResource($device)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Device created successfully.',
+            'result' => new DeviceResource($device)], 200);
     }
 
     /**

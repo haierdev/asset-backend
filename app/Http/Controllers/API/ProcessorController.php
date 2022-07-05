@@ -18,7 +18,10 @@ class ProcessorController extends Controller
     public function index()
     {
         $data = Processor::latest()->get();
-        return response()->json([ProcessorResource::collection($data), 'Processor fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Processor fetched',
+            'result' => ProcessorResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class ProcessorController extends Controller
         $processor = Processor::create([
             'processor' => $request->processor
          ]);
-        
-        return response()->json([' Processor created successfully.', new ProcessorResource($processor)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Processor created successfully.',
+            'result' => new ProcessorResource($processor)], 200);
     }
 
     /**

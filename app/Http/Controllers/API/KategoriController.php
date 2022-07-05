@@ -18,7 +18,10 @@ class KategoriController extends Controller
     public function index()
     {
         $data = Kategori::latest()->get();
-        return response()->json([KategoriResource::collection($data), 'Kategori fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Kategori fetched',
+            'result' => KategoriResource::collection($data)], 200);
     }
 
     /**
@@ -42,8 +45,10 @@ class KategoriController extends Controller
             'code' => $request->code,
             'category' => $request->category
          ]);
-        
-        return response()->json([' Kategori created successfully.', new KategoriResource($kategori)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Kataegori created successfully.',
+            'result' => new KataegoriResource($kategori)], 200);
     }
 
     /**

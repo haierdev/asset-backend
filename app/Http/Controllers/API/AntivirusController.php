@@ -18,7 +18,10 @@ class AntivirusController extends Controller
     public function index()
     {
         $data = Antivirus::latest()->get();
-        return response()->json([AntivirusResource::collection($data), 'Antivirus fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Antivirus fetched',
+            'result' => AntivirusResource::collection($data)], 200);
     }
 
     /**
@@ -41,7 +44,10 @@ class AntivirusController extends Controller
             'antivirus' => $request->antivirus
          ]);
         
-        return response()->json([' Antivirus created successfully.', new AntivirusResource($antivirus)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Antivirus created successfully.',
+            'result' => new AntivirusResource($antivirus)], 200);
     }
 
     /**

@@ -18,7 +18,10 @@ class LokasiController extends Controller
     public function index()
     {
         $data = Lokasi::latest()->get();
-        return response()->json([LokasiResource::collection($data), 'Lokasi fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Lokasi fetched',
+            'result' => LokasiResource::collection($data)], 200);
     }
 
     /**
@@ -42,8 +45,11 @@ class LokasiController extends Controller
             'code' => $request->code,
             'location' => $request->location
          ]);
-        
-        return response()->json([' Lokasi created successfully.', new LokasiResource($lokasi)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Lokasi created successfully.',
+            'result' => new LokasiResource($lokasi)], 200);
+       
     }
 
     /**

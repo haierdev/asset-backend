@@ -18,7 +18,10 @@ class BrandController extends Controller
     public function index()
     {
         $data = Brand::latest()->get();
-        return response()->json([BrandResource::collection($data), 'Brand fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Brand fetched',
+            'result' => BrandResource::collection($data)], 200);
     }
 
     /**
@@ -40,8 +43,10 @@ class BrandController extends Controller
         $brand = Brand::create([
             'brand' => $request->brand
          ]);
-        
-        return response()->json([' Brand created successfully.', new BrandResource($brand)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Brand created successfully.',
+            'result' => new BrandResource($brand)], 200);
     }
 
     /**

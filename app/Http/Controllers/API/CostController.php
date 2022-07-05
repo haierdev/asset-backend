@@ -18,7 +18,10 @@ class CostController extends Controller
     public function index()
     {
         $data = Cost::latest()->get();
-        return response()->json([CostResource::collection($data), 'Cost fetched.']);
+        return response()->json(
+            ['status' => '200',
+            'message' => 'Cost fetched',
+            'result' => CostResource::collection($data)], 200);
     }
 
     /**
@@ -42,8 +45,10 @@ class CostController extends Controller
             'code' => $request->code,
             'name' => $request->name
          ]);
-        
-        return response()->json([' Cost created successfully.', new CostResource($cost)]);
+         return response()->json(
+            ['status' => '200',
+            'message' => 'Cost created successfully.',
+            'result' => new CostResource($cost)], 200);
     }
 
     /**
