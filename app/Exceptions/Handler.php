@@ -7,6 +7,16 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    public function report(Throwable $exception)
+    {
+
+        if ($exception instanceof \League\OAuth2\Server\Exception\OAuthServerException && $exception->getCode() == 9) {
+        return response('unauthorized', 401);
+        }
+
+        parent::report($exception);
+    }
     /**
      * A list of the exception types that are not reported.
      *
