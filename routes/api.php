@@ -18,7 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 //API route for login user
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
-
+Route::fallback(function () {
+    return response()->json(
+        [
+            'status' => '201',
+            'message' => 'Method Not Allowed',
+        ], 201);
+    // return view('errors.404');  // incase you want to return view
+});
 //Protecting Routes
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/profile', function(Request $request) {
