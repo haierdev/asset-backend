@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Location;
-use App\Http\Resources\KategoriResource;
+use App\Http\Resources\LocationResource;
 
 class LocationController extends Controller
 {
