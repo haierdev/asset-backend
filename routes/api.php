@@ -32,14 +32,14 @@ Route::group(['middleware' => ['auth:api']], function () {
         return auth()->user();
     });
     //API route for MasterLokasi
-    Route::resource('lokasi', App\Http\Controllers\API\LokasiController::class)
+    Route::resource('location', App\Http\Controllers\API\LocationController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
                         ], 401); 
                     });
-    Route::resource('kategori', App\Http\Controllers\API\KategoriController::class)
+    Route::resource('category', App\Http\Controllers\API\CategoryController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
