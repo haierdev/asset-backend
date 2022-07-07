@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Lokasi;
-use App\Http\Resources\LokasiResource;
+use App\Models\Location;
+use App\Http\Resources\KategoriResource;
 
-class LokasiController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,11 @@ class LokasiController extends Controller
      */
     public function index()
     {
-        $data = Lokasi::latest()->get();
+        $data = Location::latest()->get();
         return response()->json(
             ['status' => '200',
-            'message' => 'Lokasi fetched',
-            'result' => LokasiResource::collection($data)], 200);
+            'message' => 'Location fetched',
+            'result' => LocationResource::collection($data)], 200);
     }
 
     /**
@@ -41,14 +41,14 @@ class LokasiController extends Controller
             return response()->json($validator->errors());       
         }
 
-        $lokasi = Lokasi::create([
+        $location = Location::create([
             'code' => $request->code,
             'location' => $request->location
          ]);
          return response()->json(
             ['status' => '200',
-            'message' => 'Lokasi created successfully.',
-            'result' => new LokasiResource($lokasi)], 200);
+            'message' => 'Location created successfully.',
+            'result' => new LocationResource($location)], 200);
        
     }
 
@@ -60,11 +60,11 @@ class LokasiController extends Controller
      */
     public function show($id)
     {
-        $lokasi = Lokasi::find($id);
-        if (is_null($lokasi)) {
+        $location = Location::find($id);
+        if (is_null($location)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new LokasiResource($lokasi)]);
+        return response()->json([new LocationResource($location)]);
     }
 
     /**
@@ -74,7 +74,7 @@ class LokasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lokasi $lokasi)
+    public function update(Request $request, Location $location)
     {
         $validator = Validator::make($request->all(),[
             'code' => 'required|string|max:255',
@@ -85,11 +85,11 @@ class LokasiController extends Controller
             return response()->json($validator->errors());       
         }
 
-        $lokasi->code = $request->code;
-        $lokasi->location = $request->location;
-        $lokasi->save();
+        $location->code = $request->code;
+        $location->location = $request->location;
+        $location->save();
         
-        return response()->json([' Lokasi updated successfully.', new LokasiResource($lokasi)]);
+        return response()->json([' Location updated successfully.', new LocationResource($location)]);
     }
 
     /**
@@ -98,10 +98,10 @@ class LokasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lokasi $lokasi)
+    public function destroy(Location $location)
     {
-        $lokasi->delete();
+        $location->delete();
 
-        return response()->json(' Lokasi deleted successfully');
+        return response()->json(' Location deleted successfully');
     }
 }
