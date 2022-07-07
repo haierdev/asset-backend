@@ -47,8 +47,8 @@ class CategoryController extends Controller
          ]);
          return response()->json(
             ['status' => '200',
-            'message' => 'Kataegori created successfully.',
-            'result' => new KataegoriResource($category)], 200);
+            'message' => 'Category created successfully.',
+            'result' => new CategoryResource($category)], 200);
     }
 
     /**
