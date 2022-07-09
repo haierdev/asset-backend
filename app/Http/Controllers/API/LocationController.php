@@ -33,7 +33,7 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'code' => 'required|string|max:255',
+            'code' => 'required|string|max:6',
             'location' => 'required'
         ]);
 
@@ -43,12 +43,13 @@ class LocationController extends Controller
 
         $location = Location::create([
             'code' => $request->code,
-            'location' => $request->location
+            'location' => $request->location,
+            'parent_location' => $request->parent_location
          ]);
          return response()->json(
             ['status' => '200',
             'message' => 'Location created successfully.',
-            'result' => new LocationResource($location)], 200);
+            'result' => new LocationResource($location)], 201);
        
     }
 
@@ -64,7 +65,7 @@ class LocationController extends Controller
         if (is_null($location)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new LocationResource($location)]);
+        return response()->json([new LocationResource($location)], 200);
     }
 
     /**
@@ -82,14 +83,15 @@ class LocationController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors());       
+            return response()->json($validator->errors(). 405);       
         }
 
         $location->code = $request->code;
         $location->location = $request->location;
+        $location->parent_location = $request->parent_location;
         $location->save();
         
-        return response()->json([' Location updated successfully.', new LocationResource($location)]);
+        return response()->json([' Location updated successfully.', new LocationResource($location)], 200);
     }
 
     /**
@@ -102,6 +104,6 @@ class LocationController extends Controller
     {
         $location->delete();
 
-        return response()->json(' Location deleted successfully');
+        return response()->json(' Location deleted successfully', 200);
     }
 }
