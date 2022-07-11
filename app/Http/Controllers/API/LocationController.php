@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Location;
 use App\Http\Resources\LocationResource;
+use Illuminate\Support\Facades\DB;
 
 class LocationController extends Controller
 {
