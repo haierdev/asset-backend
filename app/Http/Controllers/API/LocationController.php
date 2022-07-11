@@ -17,7 +17,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $data = Location::latest()->get();
+        // $data = Location::latest()->get();
+        $data = DB::table('vlocations')->get();
         return response()->json(
             ['status' => '200',
             'message' => 'Location fetched',
