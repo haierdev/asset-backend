@@ -44,12 +44,12 @@ class LocationController extends Controller
         }
 
         $location = Location::create([
-            'code' => $request->code,
-            'location' => $request->location,
-            'parent_location' => $request->parent_location
+            'code' => strtoupper($request->code),
+            'location' => ucfirst(trans($request->location)),
+            'parent_location' => strtoupper($request->parent_location)
          ]);
          return response()->json(
-            ['status' => '200',
+            ['status' => '201',
             'message' => 'Location created successfully.',
             'result' => new LocationResource($location)], 201);
        
