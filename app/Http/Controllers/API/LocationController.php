@@ -63,7 +63,11 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-        $location = Location::find($id);
+        if($id == 'parent') {
+            $location = Location::where('parent_location', '')->get();
+        } else {
+            $location = Location::find($id);
+        }
         if (is_null($location)) {
             return response()->json('Data not found', 404); 
         }
