@@ -67,11 +67,14 @@ class LocationController extends Controller
         if (is_null($location)) {
             $location = DB::table('locations')->where('code', $id)->get();
 
-            if (is_null($location)) {
-                return response()->json('Data not found', 404); 
+            if (empty($location)) {
+                return response()->json(['status' => '404',
+                'message' => 'Data not found'], 404); 
             }
         }
-        return response()->json(LocationResource::collection($location), 200);
+        return response()->json(['status' => '200',
+        'message' => 'Data not found',
+        'result'  => LocationResource::collection($location)], 200);
     }
 
     /**
