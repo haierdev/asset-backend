@@ -21,9 +21,9 @@ Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login'])
 Route::fallback(function () {
     return response()->json(
         [
-            'status' => '201',
+            'status' => '405',
             'message' => 'Method Not Allowed',
-        ], 201);
+        ], 405);
     // return view('errors.404');  // incase you want to return view
 });
 //Protecting Routes
@@ -37,42 +37,49 @@ Route::group(['middleware' => ['auth:api']], function () {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
+                    });
+    Route::resource('parent_location', App\Http\Controllers\API\ParentLocationController::class)
+                    ->missing(function (Request $request) {
+                        return response()->json([
+                            'status' => '404',
+                            'message' => 'Data Not Found',
+                        ], 404); 
                     });
     Route::resource('category', App\Http\Controllers\API\CategoryController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
                     });
     Route::resource('vendor', App\Http\Controllers\API\VendorController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
                     });
     Route::resource('cost', App\Http\Controllers\API\CostController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
                     });
     Route::resource('dept', App\Http\Controllers\API\DeptController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
                     });
     Route::resource('condition', App\Http\Controllers\API\ConditionController::class)
                     ->missing(function (Request $request) {
                         return response()->json([
                             'status' => '404',
                             'message' => 'Data Not Found',
-                        ], 401); 
+                        ], 404); 
                     });
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
