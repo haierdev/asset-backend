@@ -58,12 +58,12 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $code
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($code)
     {
-        $location = Location::find($id);
+        $location = Location::find($code);
         if (is_null($location)) {
             return response()->json('Data not found', 404); 
         }
