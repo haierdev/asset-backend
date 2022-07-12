@@ -65,7 +65,7 @@ class LocationController extends Controller
     {
         $location = Location::find($id);
         if (is_null($location)) {
-            $location = DB::table('locations')->where('code', 'like', $id.'%')->get();
+            $location = DB::table('locations')->where('code', 'like', $id)->get();
 
             if (is_null($location)) {
                 return response()->json('Data not found', 404); 
