@@ -73,7 +73,7 @@ class LocationController extends Controller
             }
         }
         return response()->json(['status' => '200',
-        'message' => 'Data not found',
+        'message' => 'Successfully fetch data',
         'result'  => LocationResource::collection($location)], 200);
     }
 
