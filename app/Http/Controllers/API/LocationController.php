@@ -65,13 +65,13 @@ class LocationController extends Controller
     {
         $location = Location::find($id);
         if (is_null($location)) {
-            $location = DB::table('locations')->where('code', $id)->first();
+            $location = DB::table('locations')->where('code', $id)->get();
 
             if (is_null($location)) {
                 return response()->json('Data not found', 404); 
             }
         }
-        return response()->json([new LocationResource($location)], 200);
+        return response()->json(LocationResource::collection($data), 200);
     }
 
     /**
