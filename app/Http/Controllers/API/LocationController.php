@@ -71,7 +71,7 @@ class LocationController extends Controller
                 return response()->json('Data not found', 404); 
             }
         }
-        return response()->json(LocationResource::collection($data), 200);
+        return response()->json(LocationResource::collection($location), 200);
     }
 
     /**
