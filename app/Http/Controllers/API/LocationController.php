@@ -70,8 +70,19 @@ class LocationController extends Controller
         }
         if (is_null($location)) {
             return response()->json('Data not found', 404); 
+        } else {
+
+            if($id == 'parent') {
+                return response()->json(
+                    [
+                        'status' => '200',
+                        'message' => 'Location fetched',
+                        'result' => LocationResource::collection($location)
+                ], 200);
+            } else {
+                return response()->json([new LocationResource($location)], 200);
+            }
         }
-        return response()->json([new LocationResource($location)], 200);
     }
 
     /**
