@@ -9,7 +9,7 @@ use App\Models\Location;
 use App\Http\Resources\LocationResource;
 use Illuminate\Support\Facades\DB;
 
-class LocationController extends Controller
+class ParentLocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class LocationController extends Controller
     public function index()
     {
         // $data = Location::latest()->get();
-        $data = DB::table('vlocations')->get();
+        $data = DB::table('vparent_locations')->get();
         return response()->json(
             ['status' => '200',
             'message' => 'Location fetched',
