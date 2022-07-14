@@ -19,9 +19,9 @@ class LocationController extends Controller
     public function index()
     {
         // $data = Location::latest()->get();
-        $code = $_GET['code'];
-        $id = $_GET['id'];
-        if($code != null AND $id != null) {
+        $code = @$_GET['code'];
+        $id = @$_GET['id'];
+        if($code != '' AND $id != '') {
             $data = DB::table('vlocations')->where('code', $code)->where('id', '!=', $id)->get();
         } else {
             $data = DB::table('vlocations')->get();
