@@ -51,6 +51,7 @@ class VendorController extends Controller
         }
 
         $vendor = Vendor::create([
+            'code' => $request->code,
             'name' => $request->name,
             'address' => $request->address,
             'contact' => $request->contact
@@ -96,7 +97,9 @@ class VendorController extends Controller
         }
 
         $vendor->code = $request->code;
-        $vendor->location = $request->location;
+        $vendor->name = $request->name;
+        $vendor->address = $request->address;
+        $vendor->contact = $request->contact;
         $vendor->save();
         
         return response()->json([' Vendor updated successfully.', new VendorResource($vendor)]);
