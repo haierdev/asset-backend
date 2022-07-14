@@ -41,6 +41,7 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
+            'code' => 'required|string|max:10',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15'
