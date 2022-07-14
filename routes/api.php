@@ -81,6 +81,14 @@ Route::group(['middleware' => ['auth:api']], function () {
                             'message' => 'Data Not Found',
                         ], 404); 
                     });
+
+    Route::resource('asset', App\Http\Controllers\API\AssetController::class)
+                    ->missing(function (Request $request) {
+                        return response()->json([
+                            'status' => '404',
+                            'message' => 'Data Not Found',
+                        ], 404); 
+                    });
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
