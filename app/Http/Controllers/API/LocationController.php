@@ -22,7 +22,7 @@ class LocationController extends Controller
         $code = $_GET['code'];
         $id = $_GET['id'];
         if($code != null AND $id != null) {
-            $data = DB::table('vlocations')->where('code', $code)->where('id', '<>', $id)->get();
+            $data = DB::table('vlocations')->where('code', $code)->where('id', '!=', $id)->get();
         } else {
             $data = DB::table('vlocations')->get();
         }
