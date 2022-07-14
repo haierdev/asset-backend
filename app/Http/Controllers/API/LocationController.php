@@ -19,7 +19,13 @@ class LocationController extends Controller
     public function index()
     {
         // $data = Location::latest()->get();
-        $data = DB::table('vlocations')->get();
+        $code = Input::get('code');
+        $id = Input::get('id');
+        if($code != null AND $id != null) {
+            $data = DB::table('vlocations')->where('code', $code)->where('id', $id)->get();
+        } else {
+            $data = DB::table('vlocations')->get();
+        }
         return response()->json(
             ['status' => '200',
             'message' => 'Location fetched',
