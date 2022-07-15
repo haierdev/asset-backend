@@ -17,7 +17,15 @@ class VendorController extends Controller
      */
     public function index()
     {
-        $data = Vendor::latest()->get();
+        // $data = Vendor::latest()->get();
+
+        $code = @$_GET['code'];
+        $id = @$_GET['id'];
+        if($code != '' AND $id != '') {
+            $data = DB::table('vendors')->where('code', $code)->where('id', '!=', $id)->get();
+        } else {
+            $data = Vendor::latest()->get();
+        }
         return response()->json(
             ['status' => '200',
             'message' => 'Vendor fetched',
@@ -33,9 +41,10 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
+            'code' => 'required|string|max:10',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10'
+            'contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15'
         ]);
 
         if($validator->fails()){
@@ -43,6 +52,7 @@ class VendorController extends Controller
         }
 
         $vendor = Vendor::create([
+            'code' => $request->code,
             'name' => $request->name,
             'address' => $request->address,
             'contact' => $request->contact
@@ -88,7 +98,9 @@ class VendorController extends Controller
         }
 
         $vendor->code = $request->code;
-        $vendor->location = $request->location;
+        $vendor->name = $request->name;
+        $vendor->address = $request->address;
+        $vendor->contact = $request->contact;
         $vendor->save();
         
         return response()->json([' Vendor updated successfully.', new VendorResource($vendor)]);
