@@ -81,6 +81,7 @@ class AssetController extends Controller
             'depreciation' => $request->depreciation,
             'value_book' => $request->value_book,
             'id_vendor' => $request->id_vendor,
+            'eproc' => $request->eproc,
             'budget' => $request->budget,
             'device' => $request->device,
             'type' => $request->type,
@@ -183,6 +184,7 @@ class AssetController extends Controller
         $asset->depreciation = $request->depreciation;
         $asset->value_book = $request->value_book;
         $asset->id_vendor = $request->id_vendor;
+        $asset->eproc = $request->eproc;
         $asset->budget = $request->budget;
         $asset->device = $request->device;
         $asset->type = $request->type;
