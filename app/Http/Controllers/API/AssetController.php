@@ -53,8 +53,6 @@ class AssetController extends Controller
             'id_vendor' => 'required',
             'budget' => 'required',
             'notes' => 'required',
-            'pict' => 'required|mimes:png,jpg,jpeg|max:2048',
-            'edvidace' => 'required|mimes:doc,docx,pdf,txt,csv|max:2048',
             'status' => 'required',
         ]);
 
@@ -62,22 +60,25 @@ class AssetController extends Controller
             return response()->json($validator->errors());       
         }
 
-        if ($file = $request->file('edividace')) {
-            $path = $file->store('public/files');
-            //store your file into directory and db
-            $save = new Asset();
-            $save->edvidace = $path;
-            $save->save();
+        
+        if ($request->hasfile('pict')) {
+            $picts = array();
+            foreach ($request->file('pict') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/images/', $name);
+                $picts[] = $name;
+            }
         }
 
-        if ($file = $request->file('pict')) {
-            $path = $file->store('public/images');
-            //store your file into directory and db
-            $save = new Asset();
-            $save->pict = $path;
-            $save->save();
+        if ($request->hasfile('edvidace')) {
+            $edvidaces = array();
+            foreach ($request->file('edvidace') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/files/', $name);
+                $edvidaces[] = $name;
+            }
         }
-
+        
         $asset = Asset::create([
             'asset_type' => $request->asset_type,
             'asset_code' => $request->asset_code,
@@ -117,15 +118,15 @@ class AssetController extends Controller
             'ms_office' => $request->ms_office,
             'antivirus' => $request->antivirus,
             'notes' => $request->notes,
-            'pict' => $request->pict,
-            'edvidace' => $request->edvidace,
+            'pict' => implode(',',$picts),
+            'edvidace' => implode(',',$edvidaces),
             'status' => $request->status,
          ]);
         
          return response()->json(
-            ['status' => '200',
+            ['status' => '201',
             'message' => 'Asset created successfully.',
-            'result' => new AssetResource($asset)], 200);
+            'result' => new AssetResource($asset)], 201);
     }
 
     /**
@@ -173,13 +174,35 @@ class AssetController extends Controller
             'id_vendor' => 'required',
             'budget' => 'required',
             'notes' => 'required',
-            'pict' => 'required',
-            'edvidace' => 'required',
+            // 'pict' => 'required',
+            // 'edvidace' => 'required',
             'status' => 'required',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
+        }
+
+        if ($request->hasfile('pict')) {
+            $picts = array();
+            foreach ($request->file('pict') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/images/', $name);
+                $picts[] = $name;
+            }
+        } else {
+            return response()->json(['error' => 'Please upload at least one picture.'], 400);
+        }
+
+        if ($request->hasfile('edvidace')) {
+            $edvidaces = array();
+            foreach ($request->file('edvidace') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/files/', $name);
+                $edvidaces[] = $name;
+            }
+        } else {
+            return response()->json(['error' => 'Please upload at least one picture.'], 400);
         }
 
         $asset->asset_type = $request->asset_type;
@@ -220,8 +243,8 @@ class AssetController extends Controller
         $asset->ms_office = $request->ms_office;
         $asset->antivirus = $request->antivirus;
         $asset->notes = $request->notes;
-        $asset->pict = $request->pict;
-        $asset->edvidace = $request->edvidace;
+        $asset->pict = implode(',',$picts);
+        $asset->edvidace = implode(',',$edvidaces);
         $asset->status = $request->status;
         $asset->save();
 
