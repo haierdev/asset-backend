@@ -53,13 +53,29 @@ class AssetController extends Controller
             'id_vendor' => 'required',
             'budget' => 'required',
             'notes' => 'required',
-            'pict' => 'required',
-            'edvidace' => 'required',
+            'pict' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'edvidace' => 'required|mimes:doc,docx,pdf,txt,csv|max:2048',
             'status' => 'required',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
+        }
+
+        if ($file = $request->file('edividace')) {
+            $path = $file->store('public/files');
+            //store your file into directory and db
+            $save = new Asset();
+            $save->edvidace = $path;
+            $save->save();
+        }
+
+        if ($file = $request->file('pict')) {
+            $path = $file->store('public/images');
+            //store your file into directory and db
+            $save = new Asset();
+            $save->pict = $path;
+            $save->save();
         }
 
         $asset = Asset::create([
